@@ -1,0 +1,40 @@
+.ShoppingCard {
+    margin: auto;
+    width: 60%;
+    /* border: 3px solid green; */
+    padding-top: 20px;
+    padding: 10px;
+    align-items: center;
+    z-index: 10;
+    bottom: 56px;
+}
+
+.name {
+    width: 100%;
+}
+
+.price {
+    width: 33%;
+    box-sizing: border-box;
+    float: left;
+}
+
+.quantity {
+    width: 33%;
+    box-sizing: border-box;
+    float: left;
+}
+
+.cost {
+    width: 33%;
+    box-sizing: border-box;
+    float: left;
+}
+
+@media (max-width: 500px) {
+    .price,
+    .quantity,
+    .cost {
+        width: 100%;
+    }
+}
