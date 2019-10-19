@@ -43,6 +43,7 @@ class List extends Component {
         })
         .catch(error => {
         this.setState({loading: true});
+        console.log(error);
         })
 
         db.collection("barcode")
