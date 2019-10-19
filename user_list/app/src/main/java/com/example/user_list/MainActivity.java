@@ -35,13 +35,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
         String ses = sharedPref.getString(getString(R.string.app_name), "-1");
         session=Integer.parseInt(ses);
-        session=0;
+//        session=0;
+//        session=0;
         if(session==-1)
         signin();
         else
         {
             Intent intent=new Intent(this,ListActivity.class);
-            intent.putExtra("id","1053027419080");
+            intent.putExtra("id",session.toString());
             startActivity(intent);
         }
     }
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     public void signin()
     {
         SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-        String ses = sharedPref.getString(getString(R.string.app_name), "null");
+        String ses = sharedPref.getString(getString(R.string.app_name), "-1");
 //        Log.e("aa",ses);
         session=Integer.parseInt(ses);
             IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
@@ -99,11 +100,18 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //    }
 //
-//    public void fx1(View view)
-//    {
-//        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        editor.putString(getString(R.string.app_name), "null");
-//        editor.commit();
-//    }
+    public void login(View view)
+    {
+        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        String ses = sharedPref.getString(getString(R.string.app_name), "-1");
+        session=Integer.parseInt(ses);
+        if(session==-1)
+            signin();
+        else
+        {
+            Intent intent=new Intent(this,ListActivity.class);
+            intent.putExtra("id",session.toString());
+            startActivity(intent);
+        }
+    }
 }
