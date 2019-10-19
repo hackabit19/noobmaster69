@@ -18,9 +18,7 @@ from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 
-db.collection(u'hardware').document(u'1').delete()
-
-doc_ref = db.collection(u'hardware').document(u'1')
+doc_ref = db.collection(u'counter').document(u'1')
 
 print("Hold a tag near the reader")
 
@@ -34,4 +32,3 @@ while(1):
 	finally:
     		GPIO.cleanup()
 		time.sleep(1)
-
