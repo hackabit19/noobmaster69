@@ -1,5 +1,6 @@
 package com.example.barcode_scanner;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -29,6 +33,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
                 Log.d("MainActivity", "Cancelled scan");
@@ -81,7 +86,22 @@ public class MainActivity extends AppCompatActivity {
 //                Map<String, Object> code = new HashMap<>();
 //                code.put(result.getContents(), 1);
                 text.setText(result.getContents());
-                db.collection("barcode").document(id).update(result.getContents(),FieldValue.increment(1));
+//                String ss= String.valueOf(db.collection("barcode").document(id).get());
+                db.collection("barcode").document(id).update(result.getContents(),FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Map<String, Object> data = new HashMap<>();
+                        data.put(result.getContents(),1);
+                        //data.put("country", "Japan");
+                        Log.e("aae","aaa");
+                        db.collection("barcode").document(id).set(data);
+                    }
+                });
             }
         } else {
             // This is important, otherwise the result will not be passed to the fragment
