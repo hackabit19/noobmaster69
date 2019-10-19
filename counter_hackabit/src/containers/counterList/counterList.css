@@ -1,0 +1,41 @@
+.InputForm {
+    position: absolute;
+    top: 40%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 50%;
+    margin: auto;
+    /* background-color: red; */
+    text-align: center;
+}
+
+.Footer {
+    height: 56px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(159, 182, 181, 0.87);
+    display: flex;
+    justify-content: space-between;
+    align-items: right;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    z-index: 90;
+    text-align: right;
+}
+
+.PriceTag {
+    float: right;
+    box-sizing: border-box;
+    color: yellow;
+    font-size: 150%;
+    padding: 0 20px;
+}
+
+.Empty {
+    float: right;
+    box-sizing: border-box;
+    width: 70%;
+}
