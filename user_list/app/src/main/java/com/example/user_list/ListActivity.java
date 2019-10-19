@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ListActivity extends AppCompatActivity {
+    SharedPreferences pref;
     String id,s;
     TextView text;
     Integer flag=0;
@@ -48,6 +49,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         Intent intent=getIntent();
         id=intent.getStringExtra("id");
         recyclerView = (RecyclerView) findViewById(R.id.recycle);
@@ -91,14 +93,13 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
-                if(snapshot.getData()==null)
+                if(snapshot.getData()==null && !snapshot.exists())
                 {
+                    Log.e("Logged out","logged out");
                     Toast.makeText(ListActivity.this,"Logged out",Toast.LENGTH_LONG).show();
-                    SharedPreferences sharedPref = ListActivity.this.getPreferences(Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(getString(R.string.app_name), "-1");
+                    SharedPreferences.Editor editor = pref.edit();
                     editor.clear();
-                    editor.commit();
+                    editor.apply();
                     finish();
                 }
                 if (e != null) {

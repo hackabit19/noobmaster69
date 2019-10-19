@@ -10,9 +10,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.zxing.WriterException;
 
 import java.util.Collection;
+
+import javax.annotation.Nullable;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -23,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText Code;
     private Button Generate;
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +40,26 @@ public class MainActivity extends AppCompatActivity {
         QRCode = findViewById(R.id.QRCODE);
         Code = findViewById(R.id.Code);
         Generate = findViewById(R.id.Generate);
+
+        final DocumentReference doc_ref = db.collection("hardware").document("1");
+        doc_ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(e!=null)
+                    return;
+
+                if(documentSnapshot!=null  &&  documentSnapshot.exists()){
+                    QRGEncoder qrgEncoder = new QRGEncoder(documentSnapshot.get("id").toString(),null, QRGContents.Type.TEXT,128);
+                    try {
+                        Bitmap b = qrgEncoder.encodeAsBitmap();
+                        QRCode.setImageBitmap(b);
+                    } catch (WriterException er) {
+                        er.printStackTrace();
+                        Toast.makeText(MainActivity.this, "UNSUCCESS\n" + er.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
         Generate.setOnClickListener(new View.OnClickListener() {
             @Override

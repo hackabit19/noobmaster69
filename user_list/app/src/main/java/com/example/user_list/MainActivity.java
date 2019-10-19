@@ -27,23 +27,39 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences pref;
-    Integer session;
+    String session=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-        String ses = sharedPref.getString(getString(R.string.app_name), "-1");
-        session=Integer.parseInt(ses);
-//        session=0;
-//        session=0;
-        if(session==-1)
-        signin();
-        else
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+//        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = pref.edit();
+//        editor.putString("key_name1", "abhi");
+//        editor.apply();
+//        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+//        String ses = sharedPref.getString(getString(R.string.app_name), "-1");
+//        session=Integer.parseInt(ses);
+//        if(session==-1)
+//        signin();
+//        else
+//        {
+//            Intent intent=new Intent(this,ListActivity.class);
+//            intent.putExtra("id",session.toString());
+//            startActivity(intent);
+//        }
+        //--------
+        if(pref.contains("id"))
+        session=pref.getString("id", null);
+        if(session!=null)
         {
             Intent intent=new Intent(this,ListActivity.class);
-            intent.putExtra("id",session.toString());
+            intent.putExtra("id",session);
             startActivity(intent);
+        }
+        else
+        {
+            signin();
         }
     }
 
@@ -54,10 +70,13 @@ public class MainActivity extends AppCompatActivity {
             if(result.getContents() == null) {
 
             } else {
-                SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(getString(R.string.app_name), result.getContents());
-                editor.commit();
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("id", result.getContents());
+                editor.apply();
+//                SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPref.edit();
+//                editor.putString(getString(R.string.app_name), result.getContents());
+//                editor.commit();
                 Intent intent=new Intent(this,ListActivity.class);
                 intent.putExtra("id",result.getContents());
                 startActivity(intent);
@@ -70,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void signin()
     {
-        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-        String ses = sharedPref.getString(getString(R.string.app_name), "-1");
-//        Log.e("aa",ses);
-        session=Integer.parseInt(ses);
             IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
             integrator.setOrientationLocked(true);
@@ -84,34 +99,45 @@ public class MainActivity extends AppCompatActivity {
             integrator.initiateScan();
     }
 
-//    public void fx()
-//    {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        // Listen for metadata changes to the document.
-//        DocumentReference docRef = db.collection("aa").document("bb");
-//        docRef.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot snapshot,
-//                                @Nullable FirebaseFirestoreException e) {
-//                if(snapshot.getData()==null)
-//                Log.e("aa","ee1");
-//                // ...
-//            }
-//        });
-//    }
-//
     public void login(View view)
     {
-        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-        String ses = sharedPref.getString(getString(R.string.app_name), "-1");
-        session=Integer.parseInt(ses);
-        if(session==-1)
-            signin();
+        if(pref.contains("id"))
+            session=pref.getString("id", null);
         else
+            session=null;
+        if(session!=null)
         {
             Intent intent=new Intent(this,ListActivity.class);
-            intent.putExtra("id",session.toString());
+            intent.putExtra("id",session);
             startActivity(intent);
         }
+        else
+        {
+            signin();
+        }
+//        Log.e("a",Integer.parseInt("null")+" ");
+    }
+
+    public void fx(View view)
+    {
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("session", "abhi");
+        editor.apply();
+    }
+
+    public void fx1(View view)
+    {
+        String email;
+        if(pref.contains("session"))
+        {email=pref.getString("session", null);
+        Log.e("aaa",email.toString());}
+    }
+
+    public void fx2(View view)
+    {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.apply();
     }
 }
