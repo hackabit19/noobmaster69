@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
                     id=snapshot.getData().get("id").toString();
                     Log.e("aa",snapshot.getData().get("id").toString());
                     if(flag==1)
-                    upload();
+                    {
+                        //db.collection("hardware").document("1").delete();
+                        upload();}
                     else
                         flag=1;
                     // Log.d(TAG, "Current data: " + snapshot.getData());
