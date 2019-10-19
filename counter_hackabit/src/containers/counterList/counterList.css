@@ -46,8 +46,33 @@
     color: red;
     font-size: 150%;
     padding: 0 20px;
+    
 }
 
 .Logout a {
     text-decoration: none;
+    background-color: rgb(175, 31, 31);
+    padding: 3px 5px;
+    border-radius: 15px;
+    color: white;
+}
+
+.Logout a:hover {
+    background-color: rgb(24, 138, 24);
+}
+
+.Error {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: table;
+    margin: 0 auto;
+    height: 100%;
+    top: 35%;
+    text-align: center;
+}
+
+.Sad {
+    font-size: 20vh;
 }
