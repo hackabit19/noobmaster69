@@ -4,6 +4,8 @@ import {db} from '../../firestore';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Aux from '../../hoc/Au/Au';
 import ShoppingCard from '../../components/ShoppingCard/ShoppingCard';
+import Button from '../../components/UI/Button/Button';
+import Input from '../../components/UI/Input/Input';
 
 class List extends Component {
     state = {
@@ -13,6 +15,12 @@ class List extends Component {
         value: '',
         formDone: false
     }
+
+    // componentDidMount () {
+    //     this.textInput.current.focus();
+    // }
+
+    // textInput = React.createRef();
 
     formHandler = event => {
       this.setState({formDone: true});
@@ -154,15 +162,16 @@ class List extends Component {
         <div className="InputForm" >
           <h1>Enter the Customer ID</h1>
           <form onSubmit={this.formHandler}>
-              {/* <Input 
+              <Input 
                   value={this.state.value}
-                  changed={this.changeHandler} /> */}
-              <input 
+                  changed={this.changeHandler} />
+              {/* <input 
                 type="value" 
+                autoFocus
                 value={this.state.value} 
-                onChange={this.changeHandler}/>
-              {/* <button btnType="Success" disabled={this.state.value===''}>SUBMIT</button> */}
-              <input type="submit" />
+                onChange={this.changeHandler}/> */}
+              <Button btnType="Success" disabled={this.state.value===''}>SUBMIT</Button>
+              {/* <input type="submit" /> */}
           </form>
 
         </div>
