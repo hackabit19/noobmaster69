@@ -16,9 +16,13 @@ class List extends Component {
         formDone: false
     }
 
-    // componentDidMount () {
-    //     this.textInput.current.focus();
-    // }
+    componentDidMount () {
+        db.collection("counter").doc("1")
+        .onSnapshot(doc => {
+            // console.log(typeof doc.data()['id']);
+            this.setState({value: doc.data()['id']});
+        });
+    }
 
     // textInput = React.createRef();
 
@@ -53,6 +57,18 @@ class List extends Component {
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });}
+        
+
+        db.collection("counter").doc("1").set({
+            id: ''
+        })
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+
         this.setState({formDone: false, value: ''});
         event.preventDefault();
     }
@@ -138,7 +154,7 @@ class List extends Component {
             <div className="Empty"></div>
             <div className="PriceTag"><strong>Total Cost: {totalPrice}</strong></div>
             {/* <button onclick={(event) => this.checkout(event)}>Checkout</button> */}
-            <div className="Logout"><a href="#" onClick={this.checkout}><strong>CHECKOUT</strong></a></div>
+            <div className="Logout"><a href="#" onClick={this.checkout}><strong>CHECKOUT==></strong></a></div>
           </div>
         )
         }
@@ -152,9 +168,12 @@ class List extends Component {
           // console.log(totalPrice);
         } else if(!this.state.list){
             bill = (
-                <div>
-                    <h1>Sorry!!!</h1> 
-                </div>
+               <Aux>
+                   <div className="Error">
+                       <div className="Sad"><strong>:(</strong></div>
+                       <div><strong><h4>Did not find what you were looking for!!</h4></strong></div>
+                   </div>
+               </Aux>
             );
         }
 
