@@ -1,8 +1,8 @@
 import React, {Component} from 'react';     //connect isAuth state
 import Aux from '../Au/Au';
 import './Layout.css';
-// import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-// import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
+import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends Component {
 
