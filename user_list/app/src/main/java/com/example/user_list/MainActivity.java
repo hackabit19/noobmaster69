@@ -136,8 +136,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void fx2(View view)
     {
-        SharedPreferences.Editor editor = pref.edit();
-        editor.clear();
-        editor.apply();
+//        SharedPreferences.Editor editor = pref.edit();
+//        editor.clear();
+//        editor.apply();
+        Intent intent=new Intent(this,ListActivity.class);
+        startActivity(intent);
     }
 }

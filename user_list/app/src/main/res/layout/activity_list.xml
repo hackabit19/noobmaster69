@@ -6,10 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ListActivity">
 
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="163dp"
+        android:layout_height="126dp"
+        android:text="NO items in cart"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/recycle"
+        app:layout_constraintStart_toStartOf="@+id/recycle"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="365dp" />
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="255dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>
