@@ -8,3 +8,10 @@
     height: 100%;
     font-size: 150%;
 }
+
+@media (min-width: 500px){
+    .NavigationItems{
+        flex-flow: row;
+        /* font-size: 5vw; */
+    }
+}
