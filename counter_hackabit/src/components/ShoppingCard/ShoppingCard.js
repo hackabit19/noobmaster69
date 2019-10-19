@@ -1,5 +1,5 @@
 import React from 'react';
-import './ShoppingList.css'
+import './ShoppingCard.css'
 
 const shoppingCard = (props) => {
     return (
