@@ -18,21 +18,18 @@ from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 
-#db.collection(u'hardware').document(u'1')
+doc_ref = db.collection(u'disp-counter').document(u'1')
 
-doc_ref = db.collection(u'hardware').document(u'1')
-
-print("Hold a tag near the reader")
+print("Hold a tag near the reader to login to your device")
 
 while(1):
 	try: 
 		id, text = reader.read()
 	 	print(id)
 		print(text)
-		doc_ref.set({u'id':1})
+		db.collection(u'barcode').document(str(id)).set({})
 		doc_ref.set({u'id': id})
 
 	finally:
     		GPIO.cleanup()
 		time.sleep(1)
-
