@@ -10,9 +10,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,7 +41,7 @@ public class ListActivity extends AppCompatActivity {
     SharedPreferences pref;
     String id,s;
     TextView text;
-    Integer flag=0;
+    Integer flag=0;;
     ProgressDialog progressDialog;
     Map<String, Pair<String,String>> myMap = new HashMap<String, Pair<String, String>>();
     private RecyclerView recyclerView;
@@ -52,11 +57,11 @@ public class ListActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         Intent intent=getIntent();
         id=intent.getStringExtra("id");
+        text=(TextView)findViewById(R.id.textView);
         recyclerView = (RecyclerView) findViewById(R.id.recycle);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-//        mAdapter = new MyAdapter(new Arr);
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("downloading database");
         progressDialog.setCancelable(false);
@@ -93,15 +98,15 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
-                if(snapshot.getData()==null && !snapshot.exists())
-                {
-                    Log.e("Logged out","logged out");
-                    Toast.makeText(ListActivity.this,"Logged out",Toast.LENGTH_LONG).show();
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.clear();
-                    editor.apply();
-                    finish();
-                }
+//                if(snapshot.getData()==null && !snapshot.exists())
+//                {
+//                    Log.e("Logged out","logged out");
+//                    Toast.makeText(ListActivity.this,"Logged out",Toast.LENGTH_LONG).show();
+//                    SharedPreferences.Editor editor = pref.edit();
+//                    editor.clear();
+//                    editor.apply();
+//                    finish();
+//                }
                 if (e != null) {
                     Log.e("aaa", "Listen failed.", e);
                     return;
@@ -112,6 +117,11 @@ public class ListActivity extends AppCompatActivity {
                 } else {
                     flag=1;
                     Log.e("aa", "Current data: null");
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.clear();
+                    editor.apply();
+                    Toast.makeText(ListActivity.this,"Logged  Out",Toast.LENGTH_LONG).show();
+                    finish();
                 }
                 s="";
                 if(flag==0) {
@@ -133,6 +143,10 @@ public class ListActivity extends AppCompatActivity {
                         it.remove();
                     }
                 }
+                if(mp.size()!=0)
+                    text.setVisibility(View.INVISIBLE);
+                else
+                    text.setVisibility(View.VISIBLE);
                 Log.e("ss",mp.size()+"");
                 mAdapter = new MyAdapter(ListActivity.this,mp);
                 recyclerView.setAdapter(mAdapter);

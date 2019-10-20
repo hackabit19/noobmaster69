@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Code = findViewById(R.id.Code);
         Generate = findViewById(R.id.Generate);
 
-        final DocumentReference doc_ref = db.collection("hardware").document("1");
+        final DocumentReference doc_ref = db.collection("disp-counter").document("1");
         doc_ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
