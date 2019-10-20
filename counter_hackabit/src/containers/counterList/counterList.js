@@ -20,7 +20,7 @@ class List extends Component {
         db.collection("counter").doc("1")
         .onSnapshot(doc => {
             // console.log(typeof doc.data()['id']);
-            this.setState({value: doc.data()['id']});
+            this.setState({value: doc.data()['id'].toString()});
         });
     }
 
