@@ -25,16 +25,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.text, null);
+        View view = inflater.inflate(R.layout.text, parent,false);
         return new MyHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyHolder holder, final int position) {
         final List<String> mylist = list.get(position);
-        holder.name.setText("Name  :  " + mylist.get(0));
-        holder.add.setText("Quantity  :  " + mylist.get(1));
-        holder.ref.setText("Price of one Item:  " + mylist.get(2));
+        holder.name.setText(mylist.get(0));
+        holder.add.setText("Qty : " + mylist.get(1));
+        holder.ref.setText("Price : " + mylist.get(2));
 
     }
 

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +41,10 @@ import java.util.Map;
 public class ListActivity extends AppCompatActivity {
     SharedPreferences pref;
     String id,s;
-    TextView text;
-    Integer flag=0;;
+    TextView text,amt;
+    FrameLayout frameLayout;
+    Integer flag=0;
+    Double cost;
     ProgressDialog progressDialog;
     Map<String, Pair<String,String>> myMap = new HashMap<String, Pair<String, String>>();
     private RecyclerView recyclerView;
@@ -57,7 +60,11 @@ public class ListActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         Intent intent=getIntent();
         id=intent.getStringExtra("id");
+        amt=(TextView)findViewById(R.id.amount);
         text=(TextView)findViewById(R.id.textView);
+        text.setCompoundDrawablesWithIntrinsicBounds(null,getResources().getDrawable(R.drawable.ic_cart),null,null);
+        frameLayout = findViewById(R.id.frame);
+        frameLayout.setVisibility(View.GONE);
         recyclerView = (RecyclerView) findViewById(R.id.recycle);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -126,6 +133,7 @@ public class ListActivity extends AppCompatActivity {
                 s="";
                 if(flag==0) {
                     mp.clear();
+                    cost=0.0;
                     Iterator it = l.entrySet().iterator();
                     while (it.hasNext()) {
 
@@ -139,18 +147,35 @@ public class ListActivity extends AppCompatActivity {
                         }
                         else
                             Log.e("no", "no");
-                        Log.e("abcd", pair.getKey() + " = " + pair.getValue());
+                        if (myMap.containsKey(pair.getKey()))
+//                            cost+=Integer.parseInt(String.valueOf(pair.getValue()))*myMap.get(pair.getKey()).second;
+                        Log.e("abcd", pair.getKey() + " = " + pair.getValue()+myMap.get(pair.getKey()).first+" "+myMap.get(pair.getKey()).second);
                         it.remove();
                     }
                 }
                 if(mp.size()!=0)
-                    text.setVisibility(View.INVISIBLE);
+                    frameLayout.setVisibility(View.GONE);
                 else
-                    text.setVisibility(View.VISIBLE);
+                    frameLayout.setVisibility(View.VISIBLE);
                 Log.e("ss",mp.size()+"");
                 mAdapter = new MyAdapter(ListActivity.this,mp);
                 recyclerView.setAdapter(mAdapter);
                 recyclerView.setLayoutManager(layoutManager);
+
+
+                String ss = null;
+
+                //Toast.makeText(ListActivity.this, ""+mp[0][0], Toast.LENGTH_SHORT).show();
+                for(int i = 0;i<mp.size();i++){
+                    ss = mp.get(i).get(1);
+                    long kk = Integer.parseInt(ss);
+                    ss = mp.get(i).get(2);
+                    kk *= Integer.parseInt(ss);
+                    cost += kk;
+                }
+
+                amt.setText("Amount : " + cost);
+
             }
         });
 
